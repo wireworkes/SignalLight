@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from requests import RequestException
 import requests
 
 app = Flask(__name__)
@@ -9,13 +10,19 @@ app = Flask(__name__)
 def all():
     urls = [
         "https://www.yahoo.co.jp/",
-        "https://twitter.com/",
-        "https://www.slideshare.net/"]
+        "https://httpstat.us/200",
+        "https://httpstat.us/300",
+        "https://httpstat.us/404",
+        "https://test.example.com/"
+        ]
     status = []
 
     for url in urls:
-        req = requests.get(url)
-        status.append(req.status_code)
+        try:
+            req = requests.get(url)
+            status.append(req.status_code)
+        except RequestException:
+            status.append("err")
 
     return render_template('fooo.html', site_URL=urls, site_status=status)
 
