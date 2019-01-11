@@ -5,6 +5,12 @@ import requests
 app = Flask(__name__)
 
 
+class Service:
+    def __init__(self, url, status='err'):
+        self.url = url
+        self.status = status
+
+
 @app.route("/")
 @app.route("/all")
 def all():
@@ -14,17 +20,17 @@ def all():
         "https://httpstat.us/300",
         "https://httpstat.us/404",
         "https://test.example.com/"
-        ]
-    status = []
+    ]
+    services = [Service(url) for url in urls]
 
-    for url in urls:
+    for service in services:
         try:
-            req = requests.get(url)
-            status.append(req.status_code)
+            req = requests.get(service.url)
+            service.status = req.status_code
         except RequestException:
-            status.append("err")
+            pass
 
-    return render_template('fooo.html', site_URL=urls, site_status=status)
+    return render_template('all.html', services=services)
 
 
 app.run()
