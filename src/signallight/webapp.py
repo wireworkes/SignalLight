@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 
 class Service:
-    def __init__(self, url, status='err'):
+    def __init__(self, url, status='none'):
         self.url = url
         self.status = status
 
@@ -28,7 +28,7 @@ def all():
             req = requests.get(service.url)
             service.status = req.status_code
         except RequestException:
-            pass
+            service.status = 'err'
 
     return render_template('all.html', services=services)
 
