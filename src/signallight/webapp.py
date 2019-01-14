@@ -33,4 +33,5 @@ def all():
     return render_template('all.html', services=services)
 
 
+
 app.run()
