@@ -24,10 +24,10 @@
                   <th>Site Name</th>
                   <th>Status</th>
               </tr>
-              {% for n in range(site_URL|length) %}
+              {% for service in services %}
               <tr>
-                  <td>{{site_URL[n]}}</td>
-                  <td>{{site_status[n]}}</td>
+                  <td>{{service.url}}</td>
+                  <td>{{service.status}}</td>
               </tr>
               {% endfor %}
           </table>
